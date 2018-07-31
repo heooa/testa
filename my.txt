@@ -1,5 +1,2 @@
-<<<<<<< HEAD
 hello nihao
-=======
 hello world
->>>>>>> mytest
