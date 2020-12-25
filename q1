@@ -1,0 +1,147 @@
+#ifndef QEXCEL_H
+#define QEXCEL_H
+
+#include <QString>
+#include <QVariant>
+
+class QAxObject;
+
+class QExcel : public QObject
+{
+public:
+	QExcel();
+	QExcel(QString xlsFilePath, QObject *parent = 0);
+	~QExcel();
+
+public:
+	QAxObject * getWorkBooks();
+	QAxObject * getWorkBook();
+	QAxObject * getWorkSheets();
+	QAxObject * getWorkSheet();
+
+public:
+	/**************************************************************************/
+	/* 工作表                                                                 */
+	/**************************************************************************/
+	//显示文件
+	void ShowExcel(bool Visible);
+
+	//修改sheet页的名字
+	void selectSheet(int sheetIndex,const QString& sheetName);
+
+	//sheetIndex 起始于 1
+	void selectSheet(int sheetIndex);
+
+	//sheet  上锁
+	void SetLockedSheet(const QString& password);
+
+
+	//删除sheet根据名字
+	void deleteSheet(const QString& sheetName);
+
+	//删除sheet根据索引
+	void deleteSheet(int sheetIndex);
+
+	//插入一页sheet
+	void insertSheet(QString sheetName);
+
+	//获取多少页sheet
+	int getSheetsCount();
+
+
+	//在 selectSheet() 之后才可调用
+	QString getSheetName();
+	QString getSheetName(int sheetIndex);
+
+	/**************************************************************************/
+	/* 单元格                                                                 */
+	/**************************************************************************/
+	//设置背景颜色
+	void setBackGroundColor(const QString& cell, QColor color);
+
+	//插入数据
+	void setCellString(int row, int column, QString value);
+
+	//插入大量数据  -----暂未验证  
+	void setMoreCellString(const QString& cell, QList<QList<QVariant>>datas);
+
+	//cell 例如 "A7"
+	void setCellString(const QString& cell, const QString& value);
+
+	//合并单元格 例如 "A5:C7"
+	void mergeCells(const QString& range);
+	void mergeCells(int topLeftRow, int topLeftColumn, int bottomRightRow, int bottomRightColumn);
+
+	//获取指定单元格的数据
+	QVariant getCellValue(int row, int column);
+
+	//清空单元格数据
+	void clearCell(int row, int column);
+	void clearCell(const QString& cell);
+
+	/**************************************************************************/
+	/* 布局格式                                                               */
+	/**************************************************************************/
+	//取得工作表已使用范围
+	void getUsedRange(int *topLeftRow, int *topLeftColumn, int *bottomRightRow, int *bottomRightColumn);
+
+	//设置一列的宽度  
+	void setColumnWidth(int column, int width);
+
+	//设置一行的宽度 
+	void setRowHeight(int row, int height);
+
+	//设置单元格居中 传入一行一列
+	void setCellTextCenter(int row, int column);
+	void setCellTextCenter(const QString& cell);
+
+	//设置单元格文字自动折行
+	void setCellTextWrap(int row, int column, bool isWrap);
+	void setCellTextWrap(const QString& cell, bool isWrap);
+
+	//设置一行自适应行高
+	void setAutoFitRow(int row);
+
+	void mergeSerialSameCellsInAColumn(int column, int topRow);
+
+	//获取一张工作表已用行数
+	int getUsedRowsCount();
+
+	//设置粗体
+	void setCellFontBold(int row, int column, bool isBold);
+	void setCellFontBold(const QString& cell, bool isBold);
+
+	//设置字体的类型  比如宋体 
+	void setCellFont(const QString& cell, QString font);
+
+	//设置文字大小
+	void setCellFontSize(int row, int column, int size);
+	void setCellFontSize(const QString& cell, int size);
+
+	//设置单元格
+	void setRowBorders(const QString& cell, QColor color);
+
+	////冻结窗格
+	void freezePanes(int row, int column, bool freeze);
+	/**************************************************************************/
+	/* 文件                                                                   */
+	/**************************************************************************/
+	//保存到文件中
+	void save();
+
+	//保存新文件
+	void saveFile();
+
+	//关闭文件
+	void close();
+
+private:
+	QAxObject * excel;
+	QAxObject * workBooks;
+	QAxObject * workBook;
+	QAxObject * sheets;
+	QAxObject * sheet;
+	QString m_xlsFilePath;
+};
+
+#endif
