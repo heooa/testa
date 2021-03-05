@@ -1,0 +1,463 @@
+///////////////////////////////////////////属性////////////////////////////////////////////////
+//获取属性的方法  第一个参数带后缀加上z3  第二不带后缀
+int Count;   svxAttribute* PartAtt;
+err = cvxPartUserAtGet("dkba88188008.z3prt", "dkba88188008", &Count, &PartAtt);
+
+
+///////////////////////////////////////////路径////////////////////////////////////////////////
+//根据路径获取名字
+int aa;
+vxLongName Name4;  svxEntPath lstPath; 
+aa = cvxEntNameByPath(&lstPath,Name4);
+
+//获取激活的模型路径  并激活
+svxEntPath curPath = { 0 };
+curPath.Count = 1;
+curPath.Id[0] = -1;
+cvxEntPathToRoot(&curPath);
+err = cvxEntActivate(&curPath, 0, NULL, NULL);
+
+//获取根路径
+svxEntPath topPath = { 0 };
+topPath.Count = 1;
+topPath.Id[0] = -1;
+cvxEntPathToRoot(&topPath);
+
+//判断路径下的类型是不是面
+evxEntType entTyp(VX_ENT_FACE);
+svxEntPath lstPath;
+if (cvxEntClassNumByPath(&lstPath)!= entTyp )
+{
+	continue;
+}
+
+//获取组件下的所有模型路径
+int nPaths = 0;
+int err;
+svxEntPath *paths = NULL;
+err = cvxCompInqPaths(NULL, -1, 0, &nPaths, &paths);
+
+///////////////////////////////////////////特征////////////////////////////////////////////////
+//获取所有的特征id
+int* idFeatures, n_feats;
+svxEntPath curPath = { 0 };
+err = cvxEntActivate(&lstPath, 0, NULL, &curPath);
+err = cvxPartInqFtrList(&n_feats, &idFeatures);
+cvxEntActivate(&curPath, 0, NULL, NULL);
+
+
+//判断特征的类型  是不是草绘和修饰草绘
+evxEntType entTyp{ VX_ENT_SKETCH };
+if (cvxEntClassNum(idFeatures[i]) == entTyp)
+{
+	value3["feattype"] = 949;
+}
+if (cvxSkIsCosmetic(idFeatures[i]) == 1)
+{
+	value3["feattype"] = 939;
+}
+
+//获取特征的名字
+char *Name = new char[254];
+err = cvxEntName(idFeatures[i], Name, 254); //nBytes取0到254;
+delete Name; Name=NULL;
+
+
+///////////////////////////////////////////模型////////////////////////////////////////////////
+//获取模型类型 
+QByteArray ba2; //带后缀
+ba2.append(outname[i]);
+QByteArray ba;   //不带后缀
+ba.append(outnamePart[i]); int ded;
+int ss = cvxRootIsAsm("dkba88188008.z3prt", "dkba88188008", &ded);
+
+
+//激活模型
+svxEntPath curPath = { 0 };
+int idEntity;  svxEntPath lstPath; //传入参数  
+int err = cvxEntActivate(&lstPath, 1, NULL, &curPath);//0为不刷新界面  1为刷新界面  err返回1是正确的
+	cvxEntActivate(&curPath, 0, NULL, NULL);//激活最大组件
+
+//获取激活的名字 带后缀
+void cvxFileInqActive
+(
+char *Name,    /* O: 传出的名字 */
+int nBytes      /* I: 输入名字的字节数 */
+)
+
+//获取模型id的方法
+int Count, err;
+int *Shapes = NULL;
+err = cvxPartInqShapes("dkba88188008.z3prt", "dkba88188008", &Count, &Shapes);
+
+//重新生成模型
+cvxCmdSend("~AsmCall(RegenOutDate)");
+
+//获取零件与零件的最短距离   
+int cvxEntGetDistance2
+(
+svxEntPath *EntPath1,   /* I: 第一个零件的路径 */
+svxEntPath *EntPath2,   /* I: 第二零件的路径 */
+svxPoint *Point1,   /* O: 传出的点 */
+svxPoint *Point2,   /* O: 传出的点 */
+double *MinDistance     /* O: 传出的距离*/
+)
+
+///////////////////////////////////////////草绘////////////////////////////////////////////////
+//判断草绘上的线是否是实体  
+ int cvxSkEntWireType
+(
+	int entId,       /* I: 线的id */
+	int *type        /* O:返回线的类型, 1-construct, 0-no */
+)
+
+//判断草绘上的线是否是实体  上面的方法不可用(未获取到) 
+//参数1 传入的线段id 参数2 返回的type不是0的都是其他线段0 是实线
+svxLineAt At;
+err = cvxEntLineAtGet(idEnts[i], &At);
+
+//获取草绘上所在的那个面的id    -----未验证使用方法和
+int cvxPartFtrInqInpEnts
+(
+	int idFeature,        /* i: index of feature in active bin */
+	evxEntType type,      /* i: entity type id */ 
+	int *cnt,             /* o: no. of specified entities  */
+	int **list             /* o: list of entities */
+)
+
+//判断是不是草绘  VX_ENT_SKETCH 草绘
+ evxEntType entTyp{ VX_ENT_SKETCH };
+if (cvxEntClassNum(idFeatures[i]) == entTyp)
+{
+	value3["feattype"] = "949";
+}
+
+
+//判断草绘的类型       //获取草绘上园的圆心  半径 端点 t值范围  t值范围内的任意点都对应圆上的点
+int cvxPartInqCurve
+（
+	int idEntity,   /* I: 边的id */
+	int Nurb,      /* I: 1是所有all curve types; 相反是写 0 */
+	svxCurve *Crv   /* O:   返回圆或线段的数据 */
+）
+
+//激活草图
+int cvxSkActivate(int featId, 0);//第一个参数是特征id  第二是0或1 
+
+//退出激活草图
+int cvxPartExit();
+
+//获取所有的草绘线段  必须要上面的方法激活草图才能使用 使用后要用下面的方法释放内存
+int cvxSkInqGeom
+(
+	int *Count,         /* O: 边的id 的个数*/
+	int **idEnts      /* O: 所有边的id  */
+)
+
+//释放指针的内存  上面的方法使用后要释放内存
+cvxMemFree((void**)&idEnts);
+
+//获取草绘线段的起始坐标
+int cvxEntEndPnt
+(
+	int idEntity,      /* I:输入变得id */
+	svxPoint *Start,   /* O: 起始坐标 */
+	svxPoint *End      /* O: 结束坐标 */
+)
+
+//获取草图的type 传入草绘id（idEnts） 
+//VX_ENT_CIRCLE2代表草绘圆 VX_ENT_ARC2代表草绘弧线 
+//VX_ENT_LINE2 = 58,      /* 2D line */
+//VX_ENT_CIRCLE2 = 61,    /* 2D circle */
+//VX_ENT_TEXT = 76,       /* text */
+int klassGeom = cvxEntClassNum(idEnts);
+if (klassGeom == VX_ENT_CIRCLE2 || klass == VX_ENT_ARC2)
+
+/* 获取草图中圆的圆心 */
+svxPoint *centerCoor;
+int idEntity;//边的id
+int cvxEntPnt(idEntity, centerCoor);
+
+
+/* 获取草图的转换矩阵 */
+svxMatrix mat = { 0 };
+svxEntPath sktPath = { 0 };
+sktPath.Count = 2;
+sktPath.Id[0] = -1;
+sktPath.Id[1] = idSketch; //草绘的id
+cvxEntMatrix2(sktPath, &mat);
+
+/* 对草图中的点进行矩阵转换 */
+svxMatrix mat;
+svxPoint *centerCoor;//传入传出参数，，要把转换的点坐标初始化放进去 
+cvxPntTransform(&mat, centerCoor);
+
+//获取草绘上文字的id  需要激活草绘
+int Count;
+int *idEnts=NULL; 
+int err;
+err=cvxSkInqText(&Count, &idEnts)
+
+//获取草绘上的文字  不能获取草绘的预制文字和气泡
+int cvxEntTextInq
+(
+int idText,      /* I: id of text entity */
+char **Text      /* O: copy of entity text string */
+)
+
+//获取草绘上的文字属性  什么字体  不能获取草绘的预制文字和气泡
+int cvxEntTextAtGet
+(
+int idText,    /* I: text id */
+svxTextAt*At   /* O: attributes if text */
+)
+
+//获草绘文字的坐标点
+int cvxEntTextLocGet
+(
+int idText,       /* I: text id */
+svxTextLoc *loc   /* O: location */
+)
+
+///////////////////////////////////////////结构体////////////////////////////////////////////////
+//结构体
+typedef struct svxCurve
+{
+   evxCurveType Type;   /*草绘类型 */
+   svxMatrix Frame;     /* 局部框（原点是圆/弧的中心） */
+
+   svxPoint P1, P2;     /* 线起点/终点 */
+   double A1, A2;       /* 圆弧的起始/结束角度（度） */
+   double R;            /* 圆/弧半径 */
+
+   svxParameters T;     /* NURB参数空间数据 */
+   svxControlPoints P;  /* NURB控制点数​​据（毫米） */
+} svxCurve;
+
+//矩阵的结构体
+typedef struct svxMatrix
+   {
+   char identity;          /* 如果单位矩阵为1，否则为0 */
+   double xx, yx, zx, xt;  /* X轴的余弦和原点X（xt）*/
+   double xy, yy, zy, yt;  /* Y轴的余弦和原点Y（yt） */
+   double xz, yz, zz, zt;  /* Z轴的余弦和原点Z（zt） */
+   } svxMatrix;
+
+
+//孔标注的解析结构
+typedef enum evxHoleDimDataItem
+   {
+   VX_HOLE_DIM_ITEM_ORG,        /* original variable string */ 原始变量字符串
+   VX_HOLE_DIM_ITEM_QTY,        /* number of same holes: <H_Q> */ 相同孔数
+   VX_HOLE_DIM_ITEM_DIA,        /* hole diameter D1: <H_D1> */孔径
+   VX_HOLE_DIM_ITEM_DIA2,       /* hole diameter D2: <H_D2> */孔径
+   VX_HOLE_DIM_ITEM_LABEL,      /* hole label: <H_L> */孔标签
+   VX_HOLE_DIM_ITEM_DPTH,       /* hole depth H1: <H_H1> */孔深
+   VX_HOLE_DIM_ITEM_DPTH2,      /* hole depth H2: <H_H2> */孔深
+   VX_HOLE_DIM_ITEM_ANG,        /* hole angle: <H_A> */孔角
+   VX_HOLE_DIM_ITEM_THRD_DIA,   /* hole thread diameter: <H_TD> */
+   VX_HOLE_DIM_ITEM_THRD_DPTH,  /* hole thread depth: <H_TH> */
+   VX_HOLE_DIM_ITEM_PITCH,      /* hole thread pitch: <H_TP> */
+   VX_HOLE_DIM_THRD_STD,        /* hole thread: <H_TS> */
+   VX_HOLE_DIM_THRD_SIZ,        /* hole thread size without pitch: <H_TZ> */
+   } evxHoleDimDataItem;
+///////////////////////////////////////////面///////////////////////////////////////////////
+//获取所有的面的id
+ int idShape;  
+ int Count;         /* O: number of faces */
+ int *Faces;         /* O: list of face id's */
+err=cvxPartInqShapeFaces(idShape, &Count, &Faces);
+
+//特征的所有面
+int cvxPartInqFtrEnts
+(
+int idFeature,             /* I: feature id */
+evxEntType EntType,        /* I: entity type id */
+int *Count,                /* O: number of entities */
+int **Ents                 /* O: list of the entity IDs */
+)
+
+//获取面的表面积
+int cvxFaceGetArea
+(
+const int faceId,           /* I: 面的id*/
+const double tolerance,     /* I: 传入0.01就可以 */
+double *area                /* O: 传出面的表面积 */
+)
+
+//获取面上边的长度
+int cvxCrvLen
+(
+int idCurve,   /* I: 边的id */
+double *Len    /* O: 返回边的长度 */
+)
+
+//获取面的所有边
+int cvxPartInqFaceEdges
+(
+int idFace,       /* I: 面的id */
+int *Count,         /* O: 返回边的个数 */
+int **Edges         /* O: 边的所有id */
+)
+
+//获取边的长度
+int cvxCrvLen
+(
+int idCurve,   /* I: 边的id */
+double *Len    /* O: 边的长度*/
+)
+
+//根据边的id获取相邻的两个面
+int iCount, *faceid, err;
+err = cvxPartInqEdgeFaces(iEdge, &iCount, &faceid);//正常有两个面
+
+
+//判断面上的所有边是否是内环
+int err, iCount,*iEdge, iLoop, isInner;
+err = cvxPartInqFaceEdges(idFace, &iCount, &iEdge);
+for (int i=0;i<iCount;i++)
+{
+	err = cvxPartInqEdgeLoop(idFace, iEdge[i], &iLoop);//获取边的环
+	err = cvxPartInqLoopInner(iLoop, &isInner);/* O: inner loop flag (1=inner, 0=outer) */
+	//isInner == 1//内环       //isInner == 0//外环
+}
+
+//判断面上的所有边是否是内环   (上面有案例)
+int cvxPartInqLoopInner
+(
+int idLoop,      /* I: loopid 通过下面的方法获取 */
+int *isInner     /* O: inner loop flag (1=inner, 0=outer) */
+)
+
+//获取 loopid     (上面有案例)
+int cvxPartInqFaceLoops
+(
+int idFace,       /* I: 面的id */
+int Inner,         /* I: 边的id*/
+int *Count,         /* O: 返回loopid的个数 */
+int **Loops         /* O: 返回所有的loopid */
+)
+
+//获取面的类型
+int cvxPartInqFaceSrf
+(
+int idFace,       /* I: 面的id */
+svxSurface *Srf   /* O: 面的类型 */  VX_SRF_PLANE 平面
+)
+
+//获取面的坐标点  通过三角剖分来获取面上的坐标点 一般用来获取面的最大最小坐标点
+svxFacets facets;
+err = cvxPartInqFaceFacets2(Faces[i], &facets);
+for (j = 0; j < facets.numVertex; j++)
+{
+
+	if (facets.Vertex[j].x < Xmin);
+
+}
+
+//根据模型的路径来获取矩阵
+svxMatrix Matrix;
+svxEntPath lstPath;
+int err = cvxEntMatrix2(lstPath, &Matrix);
+
+//通过矩阵转换点 
+svxMatrix matrix;
+svxPoint outline;//这个为传入传出参数  是把传入的那个点的坐标转成模型的坐标点
+cvxPntTransform(&matrix, &outline);
+
+///////////////////////////////////////////约束类型///////////////////////////////////////////////
+//获取当前装配中所有被约束的对象
+int *idCons; 
+int nCons;
+err = cvxPartInqConstraints(NULL, NULL, &nCons, &idCons); /* 获取当前装配中所有被约束的对象 */
+int cvxPartInqConstraints
+(
+vxLongName File,     /* I: 路径名字可以为空  ：dkba88188008.z3prt*/
+vxLongName Part,     /* I: 零件名字可以为空  ： dkba88188008*/
+int *count,          /* O: 约束的个数 */
+int **cons           /* O: 返回的约束的id */
+
+)
+
+//获取约束类型
+err = cvxConsInqType(*idCons, &consType);  //VX_COINCIDENT 重合
+int cvxConsInqType
+(
+int idCons,            /* I: 传入约束id */
+evxConsType *consType  /* O: 返回约束的类型 */
+)
+
+
+///////////////////////////////////////////工程图///////////////////////////////////////////////
+
+//获取所有的标注
+int cvxDwgInqDims
+(
+int idDrawing,                /* I: drawing id */
+evxDimType *dimTypeList,      /* I: dimension type list */  VX_DIM_HLCALL
+int dimTypeCount,             /* I: dimension type count */
+int *count,                   /* O: count of the object */
+int **dims                    /* O: dimension list */
+)
+
+
+//获取标注的包络框
+int cvxEntBndBox
+(
+int idEntity,         /* I: entity id */
+svxBndBox *Box       /* O: bounding box of specified entity */
+)
+
+//获取所有表的id
+int cvxDwgInqTables
+(
+int idDrawing,                /* I: drawing id */
+evxTableType type,            /* I: table type */
+int *count,                   /* O: count of the object */
+int **tables                  /* O: table list */
+)
+
+//获取图纸名称
+int cvxDwgInqName
+(
+int idDrawing,       /* I: drawing id */
+char *drawingName,   /* O: drawing name */
+int nBytes           /* I: string size of active file name */
+)
+
+//获取文本的坐标  传入文本的id
+ svxTextLoc loc;
+err = cvxEntTextLocGet(idEnts[i],&loc);
+
+
+/* 尺寸类型 */
+typedef enum evxDimType
+{
+   VX_DIM_LINEAR = 1,               /* 线性尺寸 */
+   VX_DIM_BASELINE = 2,             /* 基准尺寸 */
+   VX_DIM_CONTINUOUS = 3,           /* 连续尺寸 */
+   VX_DIM_ORDINATE = 4,             /* 普通尺寸 */
+   VX_DIM_LINEAR_OFFSET = 5,        /* 线性偏移尺寸 */
+   VX_DIM_LINEAR_CHAMFER = 6,       /* 线性倒角尺寸 */
+   VX_DIM_ANGULAR = 7,              /* 角度尺寸 */
+   VX_DIM_RADIAL_DIAMETRIC = 8,     /* 径向/直径尺寸 */
+   VX_DIM_ARC_LENGTH = 9,           /* 弧长尺寸 */
+   VX_DIM_SYMMETRY,                 /* 对称尺寸*/
+   VX_DIM_HLCALL,                   /* 打洞 */
+   VX_DIM_LABEL,                    /* 领导者标签 */
+   VX_DIM_BALLOON,                  /* 气球 */
+   VX_DIM_DATUMF,                   /* 基准特征 */
+   VX_DIM_DATUMT,                   /* 基准目标 */
+   VX_DIM_FCS,                      /* 功能控制符号 */
+   VX_DIM_CLCM,                     /* 中心线/中心标记 */
+   VX_DIM_INTERSYM,                 /* 交集符号 */
+   VX_DIM_LAST
+} evxDimType;
+
+
+//获取粗糙度符号的类型
+int cvxDwgSymSurfDataGet
+(
+int idSymSurf,    /* I: symbol id */
+svxSymSurf*data   /* O: surface roughness data */
+)
